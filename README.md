@@ -2,9 +2,7 @@
 
 **SecureVault** is a next-generation, high-security password management system that replaces traditional master passwords with an innovative **Visual Image Verification** system. Designed with a stunning **Glassmorphism UI**, it offers advanced features like **Plausible Deniability (Shadow Vaults)** and **Context-Aware Decoys**.
 
-![Preview](https://img.shields.io/badge/UI-Glassmorphism-blueviolet)
-![Security](https://img.shields.io/badge/Security-AES--Encryption-green)
-![Python](https://img.shields.io/badge/Backend-Flask-lightgrey)
+![Dashboard](docs/screenshots/dashboard.png)
 
 ---
 
@@ -12,6 +10,16 @@
 
 ### 🖼️ Visual Identity Verification
 Instead of a master password, SecureVault uses a secret image. When you want to reveal a password, you must identify your secret image among a **shuffled 20-image grid**.
+
+### 🎨 Product Showcase
+
+| Dashboard View | Add Platform |
+| :---: | :---: |
+| ![Dashboard](docs/screenshots/dashboard.png) | ![Add Platform](docs/screenshots/add_platform.png) |
+
+| Verification Grid | Access Granted |
+| :---: | :---: |
+| ![Verify](docs/screenshots/verify.png) | ![Reveal](docs/screenshots/reveal.png) |
 
 ### 🌑 Dynamic Shadow Vaults (Plausible Deniability)
 Entering an incorrect PIN doesn't just block you; it **secretly creates a completely functional, empty vault**. This allows you to maintain "plausible deniability" by showing decoys if forced to unlock your vault.
