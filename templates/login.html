@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center align-items-center animate-fade" style="min-height: 70vh;">
+    <div class="col-md-5">
+        <div class="card p-4 p-lg-5 glass-card border-0">
+            <div class="text-center mb-5">
+                <div class="bg-primary rounded-4 p-3 d-inline-block shadow mb-3">
+                    <i class="bi bi-lock-fill text-white display-6"></i>
+                </div>
+                <h2 class="display-6">Unlock Access</h2>
+                <p class="text-muted">Enter your name and PIN to access your vault.</p>
+            </div>
+
+            <form method="POST">
+                <div class="mb-4">
+                    <label class="form-label fw-bold">Vault Name</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-transparent border-end-0 text-muted"><i
+                                class="bi bi-person"></i></span>
+                        <input type="text" name="name" class="form-control border-start-0" required
+                            placeholder="Your full name">
+                    </div>
+                </div>
+
+                <div class="mb-5">
+                    <label class="form-label fw-bold">Master PIN</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-transparent border-end-0 text-muted"><i
+                                class="bi bi-key"></i></span>
+                        <input type="password" name="pin" class="form-control border-start-0" required
+                            placeholder="Enter 4-6 digit PIN">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100 py-3 rounded-pill text-uppercase tracking-wider">
+                    Unlock Vault <i class="bi bi-chevron-right ms-2"></i>
+                </button>
+            </form>
+
+            <div class="text-center mt-5">
+                <p class="text-muted mb-0">Don't have an account yet?</p>
+                <a href="{{ url_for('register') }}"
+                    class="text-primary fw-bold text-decoration-none transition-all hover-underline">Register Master
+                    PIN</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

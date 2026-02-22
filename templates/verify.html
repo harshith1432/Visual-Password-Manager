@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center animate-fade">
+    <div class="col-md-9 col-lg-7">
+        <div class="card p-4 p-lg-5 glass-card border-0">
+            <div class="text-center mb-5">
+                <div class="bg-primary-subtle rounded-circle p-3 d-inline-block mb-3">
+                    <i class="bi bi-eye-slash-fill text-primary fs-1"></i>
+                </div>
+                <h2 class="display-6">Verify Identity</h2>
+                <p class="text-muted">Select your secret security image for <strong class="text-primary">{{
+                        platform.platform }}</strong> to reveal the password.</p>
+            </div>
+
+            <form action="{{ url_for('verify', platform_id=platform.id) }}" method="POST" id="verify-form">
+                <input type="hidden" name="image_choice" id="selected-image">
+
+                <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 g-3 mb-5">
+                    {% for img in images %}
+                    <div class="col">
+                        <div class="gallery-img-container">
+                            <img src="{{ url_for('static', filename='uploads/' + img.path if img.is_secret else 'decoys/' + img.path) }}"
+                                class="gallery-img shadow-sm"
+                                data-filename="{{ img.path if img.is_secret else 'wrong' }}" onclick="selectImage(this)"
+                                alt="Decoy">
+                            <div class="selection-overlay"><i class="bi bi-check-circle-fill"></i></div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <div class="d-flex gap-3">
+                    <button type="submit" class="btn btn-primary flex-grow-1 py-3 rounded-pill text-uppercase">
+                        Verify & Reveal <i class="bi bi-unlock-fill ms-2"></i>
+                    </button>
+                    <a href="{{ url_for('dashboard') }}"
+                        class="btn btn-light px-4 py-3 rounded-pill bg-white border">Back</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    .gallery-img-container {
+        position: relative;
+        overflow: hidden;
+        border-radius: 1rem;
+    }
+
+    .selection-overlay {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        font-size: 2rem;
+        opacity: 0;
+        transition: opacity 0.2s;
+        pointer-events: none;
+        z-index: 2;
+        text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .gallery-img.selected+.selection-overlay {
+        opacity: 1;
+    }
+</style>
+
+<script>
+    function selectImage(el) {
+        // Remove selected class from all
+        document.querySelectorAll('.gallery-img').forEach(img => {
+            img.classList.remove('selected');
+        });
+        // Add to current
+        el.classList.add('selected');
+        // Set hidden input
+        document.getElementById('selected-image').value = el.getAttribute('data-filename');
+    }
+</script>
+{% endblock %}

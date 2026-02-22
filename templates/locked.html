@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center animate-fade">
+    <div class="col-md-6 text-center">
+        <div class="card p-5 glass-card border-0 border-top border-5 border-danger shadow-lg">
+            <div class="mb-4">
+                <div class="bg-danger-subtle rounded-circle p-4 d-inline-block animate-pulse">
+                    <i class="bi bi-exclamation-octagon-fill text-danger display-3"></i>
+                </div>
+            </div>
+
+            <h2 class="display-6 text-danger">Security Alert</h2>
+            <p class="lead mb-4">Too many failed attempts for <strong class="text-primary">{{ platform.platform
+                    }}</strong>.</p>
+
+            <div class="bg-light p-4 rounded-4 mb-5 text-start">
+                <h5 class="h6 fw-bold mb-3"><i class="bi bi-info-circle-fill me-2 text-primary"></i> What happened?</h5>
+                <p class="small text-muted mb-0">Our system detected 3 consecutive failed image verification attempts.
+                    To protect your data, this platform has been temporarily locked.</p>
+                <div
+                    class="mt-4 p-3 bg-danger text-white rounded-3 d-flex align-items-center justify-content-center shadow-sm">
+                    <i class="bi bi-clock-fill me-2 fs-4"></i>
+                    <span class="fw-bold">Locked until {{ platform.lock_until.strftime('%H:%M %p') }}</span>
+                </div>
+            </div>
+
+            <div class="d-grid gap-3">
+                <a href="{{ url_for('dashboard') }}" class="btn btn-primary py-3 rounded-pill text-uppercase">
+                    Back to Dashboard <i class="bi bi-house-door-fill ms-2"></i>
+                </a>
+                <p class="text-muted small">Notifications have been sent to your primary device.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    @keyframes pulse {
+        0% {
+            transform: scale(1);
+            box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4);
+        }
+
+        70% {
+            transform: scale(1.05);
+            box-shadow: 0 0 0 15px rgba(239, 68, 68, 0);
+        }
+
+        100% {
+            transform: scale(1);
+            box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+        }
+    }
+
+    .animate-pulse {
+        animation: pulse 2s infinite;
+    }
+</style>
+
+<script>
+    // Trigger a real browser notification for emphasis
+    if (Notification.permission === 'granted') {
+        new Notification('Security Alert: Platform Locked', {
+            body: 'Platform {{ platform.platform }} has been locked due to 3 failed attempts.',
+            icon: '{{ url_for("static", filename="img/alert-icon.png") }}'
+        });
+    }
+</script>
+{% endblock %}

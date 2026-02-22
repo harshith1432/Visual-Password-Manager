@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center animate-fade">
+    <div class="col-md-6 text-center">
+        <div class="card p-5 glass-card border-0">
+            <div class="mb-4">
+                <div class="bg-success-subtle rounded-circle p-4 d-inline-block shadow-sm">
+                    <i class="bi bi-shield-lock-fill text-success fs-1"></i>
+                </div>
+            </div>
+
+            <h2 class="mb-2">Access Granted</h2>
+            <p class="text-muted mb-5">Identity verified for <span class="text-primary fw-bold">{{ platform.platform
+                    }}</span></p>
+
+            <div class="password-display mb-4 position-relative p-4 rounded-4 shadow-sm">
+                <div class="d-flex justify-content-between align-items-center">
+                    <span id="revealed-password" class="h3 mb-0 font-monospace">{{ password }}</span>
+                    <button class="btn btn-outline-info border-0 ms-2" onclick="copyToClipboard('{{ password }}', this)"
+                        title="Copy to clipboard">
+                        <i class="bi bi-clipboard fs-3"></i>
+                    </button>
+                </div>
+            </div>
+
+            <p class="text-danger small mb-5">
+                <i class="bi bi-exclamation-triangle-fill me-1"></i> For safety, this password is shown only once per
+                verification.
+            </p>
+
+            <div class="d-grid gap-3">
+                <a href="{{ url_for('change_image', platform_id=platform.id) }}"
+                    class="btn btn-outline-primary py-3 rounded-pill text-uppercase">
+                    <i class="bi bi-gear-wide-connected me-2"></i> Change Password/Image
+                </a>
+                <a href="{{ url_for('dashboard') }}" class="btn btn-primary py-3 rounded-pill text-uppercase">
+                    Close & Lock <i class="bi bi-lock-fill ms-2"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function copyToClipboard(text, btn) {
+        navigator.clipboard.writeText(text).then(() => {
+            const icon = btn.querySelector('i');
+            const originalClass = icon.className;
+            icon.className = 'bi bi-check2 fs-3 text-success';
+            setTimeout(() => {
+                icon.className = originalClass;
+            }, 2000);
+        });
+    }
+</script>
+
+<style>
+    .password-display {
+        background: #0f172a;
+        color: #38bdf8;
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+        text-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
+    }
+
+    [data-theme='dark'] .password-display {
+        background: #020617;
+    }
+</style>
+{% endblock %}

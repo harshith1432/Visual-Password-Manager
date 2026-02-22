@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center animate-fade">
+    <div class="col-md-7 col-lg-6">
+        <div class="card p-4 p-lg-5 glass-card border-0 shadow-lg">
+            <div class="d-flex align-items-center mb-5">
+                <div class="bg-primary-subtle rounded-4 p-3 me-3">
+                    <i class="bi bi-gear-wide-connected text-primary fs-2"></i>
+                </div>
+                <div>
+                    <h2 class="h3 mb-1">Security Settings</h2>
+                    <p class="text-muted mb-0">Update visual keys for <strong class="text-primary">{{ platform.platform
+                            }}</strong>.</p>
+                </div>
+            </div>
+
+            <div class="alert alert-info border-0 rounded-4 p-3 mb-5 d-flex align-items-start bg-info-subtle">
+                <i class="bi bi-info-circle-fill text-info fs-4 me-3"></i>
+                <div>
+                    <span class="fw-bold d-block mb-1">Pro-tip: Dynamic Reset</span>
+                    <span class="small opacity-75">Verifying your password will immediately **reset failed attempts**
+                        and **clear active locks** for this platform.</span>
+                </div>
+            </div>
+
+            <form method="POST" enctype="multipart/form-data">
+                <div class="mb-4">
+                    <label class="form-label fw-bold text-danger">Current Platform Password (Required)</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-transparent border-end-0 text-muted"><i
+                                class="bi bi-shield-lock"></i></span>
+                        <input type="password" name="current_password" class="form-control border-start-0" required
+                            placeholder="Enter current password to authorize changes">
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-bold">New Platform Password (Optional)</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-transparent border-end-0 text-muted"><i
+                                class="bi bi-key-fill"></i></span>
+                        <input type="text" name="new_password" class="form-control border-start-0 font-monospace"
+                            placeholder="Leave blank to keep current password">
+                    </div>
+                </div>
+
+                <div class="mb-5">
+                    <div class="p-4 border border-dashed rounded-4 bg-light text-center">
+                        <label class="form-label fw-bold d-block mb-3">Upload New Security Image</label>
+                        <div class="mb-3">
+                            <i class="bi bi-image-fill display-4 text-primary-subtle"></i>
+                        </div>
+                        <input type="file" name="new_image" class="form-control" id="newImageInput" accept="image/*"
+                            required onchange="previewNewImage(event)">
+                        <img id="new-image-preview" class="mt-3 rounded-3 shadow-sm d-none"
+                            style="max-height: 200px; max-width: 100%;">
+                    </div>
+                </div>
+
+                <div class="d-flex gap-3">
+                    <button type="submit" class="btn btn-primary flex-grow-1 py-3 rounded-pill text-uppercase">
+                        <i class="bi bi-shield-check-fill me-2"></i> Update Security
+                    </button>
+                    <a href="{{ url_for('dashboard') }}"
+                        class="btn btn-light px-4 py-3 rounded-pill bg-white border">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    function previewNewImage(event) {
+        const reader = new FileReader();
+        reader.onload = function () {
+            const output = document.getElementById('new-image-preview');
+            output.src = reader.result;
+            output.classList.remove('d-none');
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    }
+</script>
+<style>
+    .border-dashed {
+        border: 2px dashed #cbd5e1 !important;
+    }
+</style>
+{% endblock %}
